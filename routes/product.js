@@ -25,4 +25,16 @@ router.get("/product/:id/:qt", function (req, res, next) {
   });
 });
 
+router.get("/instock/:qt", function (req, res, next) {
+var list=[]
+for(Element in product){
+  if(product[Element].stock > req.params.qt){
+    list.push(product[Element])
+  }
+}
+  res.json({
+list
+  });
+});
+
 module.exports = router;
