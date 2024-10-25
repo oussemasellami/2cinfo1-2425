@@ -27,4 +27,9 @@ route.put("/update/:id", usercontroller.updateuser);
 
 route.delete("/delete/:id", usercontroller.deleteuser);
 
+
+route.get("/chatroute", function (req, res) {
+  res.render('chat')//nom page twig
+});
+
 module.exports = route;
