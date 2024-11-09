@@ -9,4 +9,8 @@ route.delete("/deletejoueur/:id", joueurController.deletejoueur);
 
 route.put("/attaque/:id1/:id2", joueurController.attaque);
 route.post("/newpartie/:id1/:id2", joueurController.addpartie);
+
+route.get("/partieroute", function (req, res) {
+    res.render('partie')//nom page twig
+  });
 module.exports = route;

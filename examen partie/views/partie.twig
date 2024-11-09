@@ -1,0 +1,59 @@
+<html>
+	<script src="/socket.io/socket.io.js"></script>
+
+	<body>
+		<label for="">Nom partie</label>
+		<input type="text" id="nom">
+		<br>
+		<label for="">ID joueur1:</label>
+		<input type="text" id="id1">
+		<br>
+		<label for="">ID joueur2:</label>
+		<input type="text" id="id2">
+		<br>
+		<button onclick="creer()">Envoyer</button>
+		<button onclick="Aff()">Afficher stat</button>
+	</body>
+	<script>
+		var socket = io();
+// name = prompt("saisir votre nom :")
+socket.on("create", (data) => {
+console.log(data)
+p = document.createElement("p")
+p.innerHTML = ("Partie:" + data.nom + "<br>" + "ID_Joueur1:" + data.id1 + "<br>" + "ID_Joueur2:" + data.id2)
+document.body.append(p)
+})
+
+socket.on("afficher", (data) => {
+console.log(data)
+p = document.createElement("p")
+p.innerHTML = ("nom joueur1:" + data.j1.pseudo + "<br>" + "score:" + data.j1.score + "<br>" + "sante:" + data.j1.sante + "<br>" + "nom joueur2:" + data.j2.pseudo + "<br>" + "score:" + data.j2.score + "<br>" + "sante:" + data.j2.sante)
+document.body.append(p)
+})
+// x = document.getElementById("m")
+
+nom = document.getElementById("nom")
+id1 = document.getElementById("id1")
+id2 = document.getElementById("id2")
+function creer() {
+console.log('notre message:' + nom.value)
+console.log('notre message:' + id1.value)
+console.log('notre message:' + id2.value)
+partie = {
+nom: nom.value,
+id1: id1.value,
+id2: id2.value
+}
+socket.emit("create", partie)
+}
+function Aff() {
+
+affiche = {
+id1: id1.value,
+id2: id2.value
+}
+console.log('notre nom:' + name)
+socket.emit("afficher", affiche)
+}
+	</script>
+</html>

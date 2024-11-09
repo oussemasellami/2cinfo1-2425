@@ -88,6 +88,31 @@ async function addpartie(req, res) {
     res.status(400).send(err);
   }
 }
+
+async function addpartiesocket(data) {
+  try {
+    const partie = new Partie({
+      nom: data.nom,
+      joueur_1: data.id1,
+      joueur_2: data.id2,
+      etat: "en cours",
+    });
+    await partie.save();
+    console.log("good added");
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+async function getbyidjoueur(data) {
+  try {
+    const j1 = await Joueur.findById(data.id1);
+    const j2 = await Joueur.findById(data.id2);
+    return { j1, j2 };
+  } catch (err) {
+    console.log(err);
+  }
+}
 module.exports = {
   addjoueur,
   showjoueur,
@@ -95,4 +120,6 @@ module.exports = {
   deletejoueur,
   attaque,
   addpartie,
+  addpartiesocket,
+  getbyidjoueur
 };

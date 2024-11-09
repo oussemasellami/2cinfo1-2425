@@ -4,7 +4,8 @@ var bodyParser = require("body-parser");
 var path = require("path");
 var indexRouter = require("./Routes/index");
 var joueurRouter = require("./Routes/joueur");
-var{add}=require('./Controller/chatController')
+var { add } = require("./Controller/chatController");
+var { addpartiesocket,getbyidjoueur } = require("./Controller/joueurController");
 //connection to database
 var mongo = require("mongoose");
 var config = require("./Config/db.json");
@@ -28,14 +29,15 @@ const io = require("socket.io")(server);
 io.on("connection", (socket) => {
   console.log("user connecte");
 
-  socket.on("typing", (data) => {
+  socket.on("afficher", async (data) => {
     console.log("notre message serveur:" + data);
-    socket.broadcast.emit("typing", data);
+    const dataupdate =await getbyidjoueur(data)
+    io.emit("afficher", dataupdate);
   });
-  socket.on("aaaaa", (data) => {
+  socket.on("create", (data) => {
     console.log("notre message serveur:" + data);
-    add(data);
-    io.emit("aaaaa", data);
+    addpartiesocket(data);
+    io.emit("create", data);
   });
 
   socket.on("disconnect", () => {
