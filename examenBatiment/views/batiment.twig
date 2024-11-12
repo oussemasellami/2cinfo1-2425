@@ -1,0 +1,35 @@
+<html>
+	<head>
+		<script src="/socket.io/socket.io.js"></script>
+	</head>
+	<body>
+		<label>Id Niveau :</label><input type="text" id="ch"><input type="submit" onclick="construire()" value="Construire">
+		<input type="submit" onclick="calcul()" value="Somme">
+		<script>
+			const socket = io.connect();
+name = prompt("votre nom")
+socket.on("typing", (data) => {
+p = document.createElement("p")
+p.innerText = data
+document.body.appendChild(p)
+})
+socket.on("msg", (data) => {
+p = document.createElement("p")
+p.innerText = data
+document.body.appendChild(p)
+})
+x = document.getElementById("ch")
+
+
+function construire() {
+const id_n = document.getElementById("ch").value
+socket.emit("construire", id_n)
+}
+
+function calcul() {
+socket.emit("calcul", "calcul")
+}
+		</script>
+
+	</body>
+</html>

@@ -1,0 +1,59 @@
+<html>
+<head>
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+    
+
+<center><label for="">Nom partie:</label>
+<input id="nom" type="text"><br>
+<label for="">ID joueur 1 :</label>
+<input id="id1" type="text"><br>
+<label for="">ID joueur 2 :</label>
+<input id="id2" type="text"><br>
+<input onclick="envoye()" type="submit">
+<button onclick="affiche()" >Afficher stat</button></center>
+
+<script>
+const socket=io.connect();
+
+
+socket.on("partie",(data)=>{
+
+    s=document.createElement("p")
+    s.innerHTML=("<center>"+"Partie"+":"+data.nom+"<br>"+"jour1"+":"+data.id1+"<br>"+"jour2"+":"+data.id2+ "</center>")
+    document.body.appendChild(s)
+   
+})
+
+
+socket.on("aff",(data)=>{
+console.log("aff"+JSON.stringify(data))
+s=document.createElement("p")
+s.innerHTML=("<center>"+"stats"+":"+nom.value+"<br>"+"pseudo :"+data.j1.pseudo+"<br>"+"score :"+data.j1.score+"<br>"+"sante :"+data.j1.sante+"<br>"+"pseudo j2 :"+data.j2.pseudo+"<br>"+"score :"+data.j2.score+"<br>"+"sante :"+data.j2.sante+"</center>")
+document.body.appendChild(s)
+
+})
+
+function envoye(){
+    partie={
+        nom :nom.value,
+        id1:id1.value,
+        id2:id2.value
+    }
+
+    socket.emit("partie",partie)
+
+}
+
+function affiche(){
+    partie={
+        id1:id1.value,
+        id2:id2.value
+    }
+    console.log("partie"+JSON.stringify(partie))
+    socket.emit("aff",partie)
+}
+</script>
+</body>
+</html>
